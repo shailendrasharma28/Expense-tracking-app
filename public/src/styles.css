@@ -1,0 +1,247 @@
+/* === Fonts and Base === */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #f6d365, #fda085);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 40px;
+  animation: fadeIn 0.8s ease-in;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #fff;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+  text-transform: capitalize;
+}
+
+/* === Form Styling === */
+form {
+  background-color: #fff;
+  padding: 25px 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  animation: slideIn 0.5s ease-out;
+}
+
+label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #444;
+  text-transform: capitalize;
+}
+
+input,
+select {
+  margin-top: 5px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+  transition: border-color 0.3s ease;
+}
+
+input:focus,
+select:focus {
+  border-color: #ff7f50;
+  outline: none;
+}
+
+/* === Buttons === */
+button {
+  padding: 10px 16px;
+  background-color: #ff7f50;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  text-transform: capitalize;
+}
+
+button:hover {
+  background-color: #ff5722;
+  transform: scale(1.05);
+}
+
+/* === Expense List === */
+.expense-list {
+  margin-top: 40px;
+  width: 90%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.expense-list div:first-child {
+  background-color: #ffffffdd;
+  padding: 15px 20px;
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  animation: fadeInUp 0.5s ease forwards;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.expense-list div:nth-child(2) {
+  padding: 15px 10px;
+  border-radius: 10px;
+  width: 40%;
+  animation: fadeInUp 0.5s ease forwards;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.expense-list div:hover {
+  transform: translateY(-3px);
+}
+
+/* === Inner content for expense details === */
+.expense-list div > div {
+  display: flex;
+  flex-direction: row;
+  width: 60%;
+  gap: 40px;
+  margin-bottom: 10px;
+}
+
+.expense-list div > div {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  margin-bottom: 10px;
+}
+
+/* h2 elements inside item */
+.expense-list h2 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #333;
+  letter-spacing: 0.3px;
+  text-transform: capitalize;
+  transition: all 0.3s ease;
+}
+
+/* ₹ amount */
+.expense-list h2:first-child {
+  color: #e91e63;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+/* Description */
+.expense-list h2:nth-child(2) {
+  color: #3f51b5;
+}
+
+/* Category */
+.expense-list h2:nth-child(3) {
+  color: #4caf50;
+}
+
+/* === Buttons inside each item === */
+.expense-list button {
+  margin-right: 10px;
+  font-size: 0.85rem;
+  padding: 7px 12px;
+  border-radius: 5px;
+}
+
+.expense-list button:first-of-type {
+  background-color: #f44336;
+}
+
+.expense-list button:last-of-type {
+  background-color: #2196f3;
+}
+
+.expense-list button:hover {
+  transform: translateY(-1px);
+}
+
+/* === Animations === */
+@keyframes slideIn {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* === Responsive === */
+@media (max-width: 480px) {
+  form {
+    width: 90%;
+  }
+
+  .expense-list {
+    width: 95%;
+  }
+
+  .expense-list div {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .expense-list div > div {
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+
+  .expense-list h2 {
+    font-size: 1rem;
+  }
+
+  button {
+    font-size: 0.9rem;
+  }
+
+  .expense-list button {
+    margin-right: 0;
+    margin-bottom: 8px;
+  }
+}
