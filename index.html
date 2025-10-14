@@ -8,29 +8,23 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
-    <h1>EXPENSE TRACKING APP</h1>
-    <form action="" id="form">
-        <label for="expense-amount">
-            Choose expenseamount:
-            <input type="number" id="expense-amount">
-        </label>
-        <label for="expense-type">
-            Choose description:
-            <input type="text" id="expense-type">
-        </label>
-        <label for="categories">
-            Choose a category:
-            <select name="categories" id="categories">
-                <option value="movie">Movie</option>
-                <option value="health">Health</option>
-                <option value="food">Food</option>
-                <option value="education">Education</option>
-            </select>
-        </label>
-        <button type="submit" id="submit-btn">Add expense</button>
-    </form>
+    <h1 id="main-heading">EXPENSE TRACKING APP</h1>
+    <form action="" id="signup-form">
+        <h1 id="form-heading">Create your account!</h1>
+        <label for="username">Name:</label>
+        <input type="text" name="username" id="username">
 
-    <div class="expense-list" id="expenses"></div>
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email">
+
+        <label for="password">Password:</label>
+        <input type="text" name="password" id="password">
+
+        <button type="submit" id="submit-btn">SignUp</button>
+    </form>
+    <div id="toast" class="toast hidden"></div>
+
+
     <script src="./public/src/index.js"></script>
 </body>
 </html>

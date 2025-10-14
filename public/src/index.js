@@ -1,91 +1,37 @@
-const baseUrl = "http://localhost:3000/expenses";
+const baseUrl = "http://localhost:3000/";
 
-const form = document.getElementById("form");
-const expenseAmount = document.getElementById("expense-amount");
-const expenseType = document.getElementById("expense-type");
-const categories = document.getElementById("categories");
-const expensesDiv = document.getElementById("expenses");
+const form = document.getElementById("signup-form");
 
-let expenses = [];
-let editingId = null;
-
-// Initial load
-window.addEventListener("DOMContentLoaded", async () => {
-  try {
-    const res = await axios.get(`${baseUrl}/`);
-    expenses = res.data;
-    renderExpenses();
-  } catch (err) {
-    console.error("Error fetching expenses:", err);
-  }
-});
-
-// Form submit
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const expense = {
-    expenseAmount: expenseAmount.value,
-    description: expenseType.value,
-    category: categories.value,
-  };
+  const name = document.getElementById("username").value;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  const data = { name, email, password };
 
   try {
-    if (editingId) {
-      const res = await axios.put(`${baseUrl}/${editingId}`, expense);
-      expenses = expenses.map((exp) => (exp.id === editingId ? res.data : exp));
-      editingId = null;
-    } else {
-      const res = await axios.post(`${baseUrl}/`, expense);
-      expenses.push(res.data);
-    }
+    const createUser = await axios.post(`${baseUrl}/users/signup`, data);
+    const res = createUser.data.message;
 
-    renderExpenses();
+    showToast(res, "success"); // ✅ Show success toast
     form.reset();
-  } catch (err) {
-    console.error("Error saving expense:", err);
+
+  } catch (error) {
+    console.error("Error:", error);
+    const errorMsg = error?.response?.data?.message || "Something went wrong!";
+    showToast(errorMsg, "error"); // ❌ Show error toast
   }
 });
 
-// Render UI
-function renderExpenses() {
-  expensesDiv.innerHTML = "";
+function showToast(message, type = "success") {
+  const toast = document.getElementById("toast");
+  toast.innerText = message;
+  toast.className = `toast show ${type}`;
 
-  expenses.forEach((exp) => {
-    const expenseItem = document.createElement("div");
-    expenseItem.innerHTML = `
-      <div>
-        <h2>₹${exp.expenseAmount}</h2>
-        <h2>${exp.description}</h2>
-        <h2>${exp.category}</h2>
-      </div>
-      <div>
-        <button onclick="deleteExpense(${exp.id})">Delete</button>
-        <button onclick="editExpense(${exp.id})">Edit</button>
-      </div>
-    `;
-    expensesDiv.appendChild(expenseItem);
-  });
+  // Show toast for 3 seconds
+  setTimeout(() => {
+    toast.className = `toast hidden`;
+  }, 3000);
 }
-
-// Delete
-window.deleteExpense = async function (id) {
-  try {
-    await axios.delete(`${baseUrl}/${id}`);
-    expenses = expenses.filter((exp) => exp.id !== id);
-    renderExpenses();
-  } catch (err) {
-    console.error("Error deleting expense:", err);
-  }
-};
-
-// Edit
-window.editExpense = function (id) {
-  const exp = expenses.find((e) => e.id === id);
-
-  expenseAmount.value = exp.expenseAmount;
-  expenseType.value = exp.description;
-  categories.value = exp.category;
-
-  editingId = id;
-};
