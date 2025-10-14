@@ -20,6 +20,8 @@ body {
   font-weight: 800;
   width: 100%;
   text-align: center;
+  height: 80px;
+  letter-spacing: 15px;
   margin-bottom: 40px;
   margin-top: 0;
   background-color: #20df76;
@@ -35,7 +37,6 @@ body {
   text-align: center;
   color: #009959;
   background-color: transparent;
-  /* text-shadow: 1px 1px 2px rgba(0,0,0,0.2) */
   text-transform: uppercase;
 }
 
@@ -75,7 +76,6 @@ select:focus {
   outline: none;
 }
 
-/* === Buttons === */
 #submit-btn {
   padding: 10px 16px;
   background-color: #ff7f50;

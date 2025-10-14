@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:3000/";
+const baseUrl = "http://localhost:3000";
 
 const form = document.getElementById("signup-form");
 
@@ -14,15 +14,20 @@ form.addEventListener("submit", async (e) => {
   try {
     const createUser = await axios.post(`${baseUrl}/users/signup`, data);
     const res = createUser.data.message;
-
-    showToast(res, "success"); // ✅ Show success toast
-    form.reset();
+    if(createUser.data.success === false) {
+      showToast(res, "error");  
+      form.reset();
+    } else {
+      showToast(res, "success"); 
+    }
 
   } catch (error) {
     console.error("Error:", error);
     const errorMsg = error?.response?.data?.message || "Something went wrong!";
-    showToast(errorMsg, "error"); // ❌ Show error toast
+    showToast(errorMsg, "error");
   }
+
+  form.reset();
 });
 
 function showToast(message, type = "success") {
