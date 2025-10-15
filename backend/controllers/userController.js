@@ -1,4 +1,5 @@
 const User = require("../models/userModel");
+const bcrypt = require("bcryptjs");
 
 const userController = {
     signUp: async (req, res) => {
@@ -35,7 +36,7 @@ const userController = {
                 })
             }
 
-            const isPasswordValid = user.password === password;
+            const isPasswordValid = await bcrypt.compare(password, user.password);
             if(!isPasswordValid){
                 res.status(401).json({
                     success: false,
