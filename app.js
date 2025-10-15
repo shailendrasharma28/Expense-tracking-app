@@ -5,6 +5,8 @@ const cors = require("cors");
 const db = require('./backend/config/db-connection');
 const userRoutes = require('./backend/routes/userRoutes');
 const expenseRoutes = require('./backend/routes/expenseRoutes');
+const User = require('./backend/models/userModel');
+const Expenses = require('./backend/models/expenseModel');
 
 // Port Defined...
 const port = 4000;
@@ -18,6 +20,9 @@ app.use(cors({
 
 app.use("/users", userRoutes);
 app.use("/expenses", expenseRoutes);
+
+User.hasMany(Expenses, {foreignKey: "user_id", onDelete: "CASCADE"});
+Expenses.belongsTo(User, {foreignKey: "user_id"});
 
 // Middleware which logs the method of request and Url
 app.use((req, res, next) => {

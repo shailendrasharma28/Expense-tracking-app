@@ -3,8 +3,9 @@ const Expenses = require("../models/expenseModel");
 const expenseController = {
     add: async (req, res) => {
         const {expenseAmount, description, category} = req.body;
+        const userId = req.user.id;
         try {
-            const expense = await Expenses.create({expenseAmount, description, category});
+            const expense = await Expenses.create({user_id: userId, expenseAmount, description, category});
             res.status(201).json(expense);
         } catch (error) {
             res.status(500).json({
@@ -15,8 +16,9 @@ const expenseController = {
     },
 
     get: async (req, res) => {
+        const userId = req.user.id;
         try {
-            const expenses = await Expenses.findAll();
+            const expenses = await Expenses.findAll({where: {user_id: userId}});
             res.status(200).json(expenses);
         } catch (error) {
             res.status(500).json({
@@ -46,8 +48,9 @@ const expenseController = {
 
     delete: async (req, res) => {
         const {id} = req.params;
+        const userId = req.user.id;
         try {
-            await Expenses.destroy({where: {id}})
+            await Expenses.destroy({where: {id: id, user_id: userId}})
             res.status(200).json({
                 message: "Expense deleted!"
             });

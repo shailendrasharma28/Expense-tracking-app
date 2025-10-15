@@ -9,6 +9,15 @@ Expenses.init({
         autoIncrement: true
     },
     
+    user_id: {
+        type: DataTypes.INTEGER,
+        allowNull:true,
+        references: {
+            model: "users",
+            key: "id"
+        }
+    },
+
     expenseAmount: {
         type: DataTypes.INTEGER,
         allowNull: false,

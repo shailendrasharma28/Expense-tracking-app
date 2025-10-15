@@ -1,3 +1,4 @@
+const authMiddleware = require("../middlewares/authMiddleware");
 const User = require("../models/userModel");
 const bcrypt = require("bcryptjs");
 
@@ -40,13 +41,16 @@ const userController = {
             if(!isPasswordValid){
                 res.status(401).json({
                     success: false,
-                    message: `User not authorized, Password is invalid!`
+                    message: `User not authorized, Password is invalid!`,
+                    userId: user.id
                 })
             }
-
+            const token = authMiddleware.generateToken(user.id);
+            authMiddleware.setTokenCookie(res, token);
             res.status(200).json({
                 success: true,
-                message: `Hey ${user.name}! You logged in successfully.`
+                message: `Hey ${user.name}! You logged in successfully.`,
+                token: token
             })
         } catch (error) {
             res.status(500).json({

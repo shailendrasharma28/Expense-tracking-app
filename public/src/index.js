@@ -14,7 +14,12 @@ let editingId = null;
 // Initial load
 window.addEventListener("DOMContentLoaded", async () => {
   try {
-    const res = await axios.get(`${baseUrl}/expenses`);
+    const token = localStorage.getItem("jwt")
+    const res = await axios.get(`${baseUrl}/expenses`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     expenses = res.data;
     renderExpenses();
   } catch (err) {
@@ -67,10 +72,10 @@ if (loginForm) {
       const res = login.data.message;
       if (login.data.success === false) {
         showToast(res, "error");
-        loginForm.reset();
       } else {
         showToast(res, "success");
         localStorage.setItem("user", true);
+        localStorage.setItem("jwt", login.data.token)
         window.location.href = "/frontend/pages/expense.html"
       }
     } catch (error) {
@@ -101,7 +106,12 @@ if(expenseForm){
         );
         editingId = null;
       } else {
-        const res = await axios.post(`${baseUrl}/expenses`, expense);
+        const token = localStorage.getItem("jwt")
+        const res = await axios.post(`${baseUrl}/expenses`, expense, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         expenses.push(res.data);
       }
 
@@ -132,7 +142,12 @@ function renderExpenses() {
 // Delete
 window.deleteExpense = async function (id) {
   try {
-    await axios.delete(`${baseUrl}/expenses/${id}`);
+    const token = localStorage.getItem("jwt")
+    await axios.delete(`${baseUrl}/expenses/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
     expenses = expenses.filter((exp) => exp.id !== id);
     renderExpenses();
   } catch (err) {
