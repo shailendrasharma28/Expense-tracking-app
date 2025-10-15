@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:3000";
+const baseUrl = "http://localhost:4000";
 
 const signupForm = document.getElementById("signup-form");
 const loginForm = document.getElementById("login-form");
@@ -70,5 +70,5 @@ function showToast(message, type = "success") {
   // Show toast for 3 seconds
   setTimeout(() => {
     toast.className = `toast hidden`;
-  }, 3000);
+  }, 5000);
 }

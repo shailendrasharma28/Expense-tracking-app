@@ -22,6 +22,37 @@ const userController = {
                 message: `Error creating user, please try again later!`
             })
         }
+    },
+
+    login: async (req, res) => {
+        const {email, password} = req.body;
+        try {
+            const user = await User.findOne({where: {email: email}});
+            if(!user){
+                res.status(404).json({
+                    success: false,
+                    message: `User not found with given ${email}!`
+                })
+            }
+
+            const isPasswordValid = user.password === password;
+            if(!isPasswordValid){
+                res.status(401).json({
+                    success: false,
+                    message: `User not authorized, Password is invalid!`
+                })
+            }
+
+            res.status(200).json({
+                success: true,
+                message: `Hey ${user.name}! You logged in successfully.`
+            })
+        } catch (error) {
+            res.status(500).json({
+                success: false,
+                message: `Error login you account, try again later!`
+            })
+        }
     }
 };
 
