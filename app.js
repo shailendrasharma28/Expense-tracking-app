@@ -4,6 +4,7 @@ const app = express();
 const cors = require("cors");
 const db = require('./backend/config/db-connection');
 const userRoutes = require('./backend/routes/userRoutes');
+const expenseRoutes = require('./backend/routes/expenseRoutes');
 
 // Port Defined...
 const port = 4000;
@@ -16,6 +17,7 @@ app.use(cors({
 }));
 
 app.use("/users", userRoutes);
+app.use("/expenses", expenseRoutes);
 
 // Middleware which logs the method of request and Url
 app.use((req, res, next) => {

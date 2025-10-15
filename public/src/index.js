@@ -2,6 +2,26 @@ const baseUrl = "http://localhost:4000";
 
 const signupForm = document.getElementById("signup-form");
 const loginForm = document.getElementById("login-form");
+const expenseForm = document.getElementById("expense-form");
+const expenseAmount = document.getElementById("expense-amount");
+const expenseType = document.getElementById("expense-type");
+const categories = document.getElementById("categories");
+const expensesDiv = document.getElementById("expenses");
+
+let expenses = [];
+let editingId = null;
+
+// Initial load
+window.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const res = await axios.get(`${baseUrl}/expenses`);
+    expenses = res.data;
+    renderExpenses();
+  } catch (err) {
+    console.error("Error fetching expenses:", err);
+  }
+});
+
 
 if (signupForm) {
   signupForm.addEventListener("submit", async (e) => {
@@ -50,6 +70,8 @@ if (loginForm) {
         loginForm.reset();
       } else {
         showToast(res, "success");
+        localStorage.setItem("user", true);
+        window.location.href = "/frontend/pages/expense.html"
       }
     } catch (error) {
       console.error("Error:", error);
@@ -61,6 +83,63 @@ if (loginForm) {
     loginForm.reset();
   });
 }
+
+if(expenseForm){
+  expenseForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const expense = {
+      expenseAmount: expenseAmount.value,
+      description: expenseType.value,
+      category: categories.value,
+    };
+
+    try {
+      if (editingId) {
+        const res = await axios.put(`${baseUrl}/expenses/${editingId}`, expense);
+        expenses = expenses.map((exp) =>
+          exp.id === editingId ? res.data : exp
+        );
+        editingId = null;
+      } else {
+        const res = await axios.post(`${baseUrl}/expenses`, expense);
+        expenses.push(res.data);
+      }
+
+      renderExpenses();
+      expenseForm.reset();
+    } catch (err) {
+      console.error("Error saving expense:", err);
+    }
+  });
+}
+
+
+function renderExpenses() {
+  expensesDiv.innerHTML = "";
+
+  expenses.forEach((exp) => {
+    const expenseItem = document.createElement("div");
+    expenseItem.innerHTML = `
+        <h2>₹${exp.expenseAmount}</h2>
+        <h2>${exp.description}</h2>
+        <h2>${exp.category}</h2>
+        <button onclick="deleteExpense(${exp.id})">Delete</button>
+    `;
+    expensesDiv.appendChild(expenseItem);
+  });
+}
+
+// Delete
+window.deleteExpense = async function (id) {
+  try {
+    await axios.delete(`${baseUrl}/expenses/${id}`);
+    expenses = expenses.filter((exp) => exp.id !== id);
+    renderExpenses();
+  } catch (err) {
+    console.error("Error deleting expense:", err);
+  }
+};
+
 
 function showToast(message, type = "success") {
   const toast = document.getElementById("toast");

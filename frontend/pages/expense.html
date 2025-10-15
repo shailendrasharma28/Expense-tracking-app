@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense tracker</title>
+    <link rel="stylesheet" href="/public/src/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h1 id="main-heading">EXPENSE TRACKING APP</h1>
+    <form action="" id="expense-form">
+        <label for="expense-amount">
+            Choose expense Amount:
+            <input type="number" id="expense-amount">
+        </label>
+        <label for="expense-type">
+            Choose description:
+            <input type="text" id="expense-type">
+        </label>
+        <label for="categories">
+            Choose a category:
+            <select name="categories" id="categories">
+                <option value="movie">Movie</option>
+                <option value="health">Health</option>
+                <option value="food">Food</option>
+                <option value="education">Education</option>
+            </select>
+        </label>
+        <button type="submit" id="submit-btn">Add expense</button>
+    </form>
+
+    <div class="expense-list" id="expenses"></div>
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="/public/src/index.js"></script>
+</body>
+</html>
