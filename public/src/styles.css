@@ -97,6 +97,28 @@ select:focus {
   transform: scale(1.05);
 }
 
+#pay-btn {
+  padding: 10px 16px;
+  background-color: #ff7f50;
+  color: #fff;
+  border: none;
+  position: fixed;
+  top: 20px;       /* distance from top */
+  right: 20px;     /* distance from right */
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  text-transform: capitalize;
+  z-index: 999;
+}
+
+#pay-btn:hover {
+  background-color: #ff5722;
+  transform: scale(1.05);
+}
+
 /* === Expense List === */
 .expense-list {
   margin-top: 40px;

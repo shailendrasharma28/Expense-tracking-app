@@ -14,7 +14,13 @@ let editingId = null;
 // Initial load
 window.addEventListener("DOMContentLoaded", async () => {
   try {
-    const token = localStorage.getItem("jwt")
+    const token = localStorage.getItem("jwt");
+    if (!token) {
+      if (window.location.pathname !== "/index.html") {
+        window.location.href = "/index.html";
+        return;
+      }
+    }
     const res = await axios.get(`${baseUrl}/expenses`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -165,4 +171,24 @@ function showToast(message, type = "success") {
   setTimeout(() => {
     toast.className = `toast hidden`;
   }, 5000);
+}
+
+const urlParams = new URLSearchParams(window.location.search);
+const orderId = urlParams.get("order_id");
+const amount = urlParams.get("order_amount");
+const paymentStatus = urlParams.get("payment_status");
+const referenceId = urlParams.get("reference_id");
+
+// Displaying order details
+document.getElementById("orderId").textContent = orderId;
+document.getElementById("amount").textContent = amount;
+document.getElementById("referenceId").textContent = referenceId;
+
+// Checking payment status
+if (paymentStatus === "SUCCESS") {
+  document.getElementById("statusMessage").textContent = "Payment Successful!";
+} else {
+  document.getElementById("statusMessage").textContent = "Payment Failed!";
+  document.getElementById("statusMessage").classList.remove("success");
+  document.getElementById("statusMessage").classList.add("failure");
 }
