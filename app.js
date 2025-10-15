@@ -1,12 +1,15 @@
 const express = require('express');
+const path = require("path");
 const app = express();
 const cors = require("cors");
-const db = require('./config/db-connection');
-const userRoutes = require('./routes/userRoutes');
+const db = require('./backend/config/db-connection');
+const userRoutes = require('./backend/routes/userRoutes');
 
 // Port Defined...
 const port = 3000;
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, "public/src")));
+app.use(express.static(path.join(__dirname, "frontend")));
+app.use(express.static(path.join(__dirname, "frontend/pages")));
 app.use(express.json());
 app.use(cors({
   origin: "*"
