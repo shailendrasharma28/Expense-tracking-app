@@ -8,6 +8,7 @@ const expenseRoutes = require('./backend/routes/expenseRoutes');
 const paymentRoutes = require('./backend/routes/paymentRoutes');
 const User = require('./backend/models/userModel');
 const Expenses = require('./backend/models/expenseModel');
+const Payment = require('./backend/models/paymentModel');
 
 // Port Defined...
 const port = 4000;
@@ -25,6 +26,9 @@ app.use("/payment", paymentRoutes);
 
 User.hasMany(Expenses, {foreignKey: "user_id", onDelete: "CASCADE"});
 Expenses.belongsTo(User, {foreignKey: "user_id"});
+
+User.hasMany(Payment, {foreignKey: "user_id", onDelete: "CASCADE"});
+Payment.belongsTo(User, {foreignKey: "user_id"});
 
 // Middleware which logs the method of request and Url
 app.use((req, res, next) => {

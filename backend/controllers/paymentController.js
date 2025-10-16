@@ -1,4 +1,5 @@
 const Payment = require("../models/paymentModel");
+const User = require("../models/userModel");
 const {createNewOrder, orderStatus} = require("../services/paymentService")
 
 const paymentController = {
@@ -40,6 +41,15 @@ const paymentController = {
         },
         { where: { order_id: order_id } }
       );
+
+      if(response.orderStatus === "Success"){
+        const user = await User.findOne({
+            include: {model: Payment, attributes: ["id", "user_id"], where: {order_id: order_id}}
+        });
+        console.log(user);
+        
+        user.update({is_premium: true})
+      }
       res.status(200).json({
         success: true,
         order_id,

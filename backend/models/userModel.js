@@ -24,6 +24,11 @@ User.init({
         type: DataTypes.STRING(255),
         allowNull: false,
     },
+    is_premium: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+    }
 }, {
     sequelize,
     modelName: "User",

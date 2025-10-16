@@ -224,6 +224,41 @@ select:focus {
   background-color: #d61103;
 }
 
+#premium-user-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+#premium-user {
+  font-size: 1rem;
+  color: green;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+#leaderboard-btn {
+  margin-right: 10px;
+  font-size: 1rem;
+  padding: 10px 12px;
+  border-radius: 5px;
+  background-color: green;
+  border: none;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+#premium-user-div button:hover {
+  transform: translateY(-1px);
+  background-color: #00552a;
+}
+
+#hidden {
+  display: none;
+}
+
 .toast {
   position: fixed;
   bottom: 20px;

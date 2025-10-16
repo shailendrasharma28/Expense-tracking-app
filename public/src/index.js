@@ -8,7 +8,6 @@ const expenseType = document.getElementById("expense-type");
 const categories = document.getElementById("categories");
 const expensesDiv = document.getElementById("expenses");
 const payBtn = document.getElementById("pay-btn");
-const paymentCard = document.getElementById("paymentCard");
 
 let expenses = [];
 let editingId = null;
@@ -150,33 +149,8 @@ if (payBtn) {
     let checkoutOptions = {
       paymentSessionId: paymentSessionId,
     };
-    cashfree.checkout(checkoutOptions);
+    await cashfree.checkout(checkoutOptions);
   })
-}
-
-if (paymentCard) {
-  document.addEventListener("DOMContentLoaded", async () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const orderId = urlParams.get("order_id");
-    if (!orderId) return;
-
-    try {
-      const res = await fetch(`${baseUrl}/payments/order/${orderId}`);
-      const data = await res.json();
-      console.log(data);
-      
-      if (data.orderStatus === "Success") {
-        showSuccessCard(data);
-      } else if (data.orderStatus === "Failure") {
-        showFailedCard(data);
-      } else {
-        showPendingCard(data);
-      }
-    } catch (error) {
-      console.error("Error fetching payment:", error);
-      showFailedCard({ message: "Unable to verify payment." });
-    }
-  });
 }
 
 function renderExpenses() {
