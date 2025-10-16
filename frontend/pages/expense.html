@@ -9,7 +9,11 @@
     <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
 </head>
 <body>
-    <h1 id="main-heading">EXPENSE TRACKING APP</h1>
+    <div id="header">
+        <h1 id="main-heading">EXPENSE TRACKING APP</h1>
+        <button id="pay-btn">Buy Premium</button>
+    </div>
+
     <form action="" id="expense-form">
         <label for="expense-amount">
             Choose expense Amount:
@@ -31,33 +35,9 @@
         <button type="submit" id="submit-btn">Add expense</button>
     </form>
 
-    <button id="pay-btn">Buy Premium</button>
-
     <div class="expense-list" id="expenses"></div>
     <div id="toast" class="toast hidden"></div>
 
     <script src="/public/src/index.js"></script>
-    <script>
-        const cashfree = Cashfree({
-            mode: "sandbox",
-        });
-        document.getElementById("pay-btn").addEventListener("click", async () => {
-            const token = localStorage.getItem("jwt")
-            const createPayment = await axios.post(
-                "http://localhost:4000/payment/create",
-                {phone: "9351943369"},
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                }
-            );
-            const paymentSessionId = createPayment.data.sessionId;
-            let checkoutOptions = {
-                paymentSessionId: paymentSessionId,
-            };
-            cashfree.checkout(checkoutOptions);
-        });
-    </script>
 </body>
 </html>

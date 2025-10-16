@@ -7,6 +7,8 @@ const expenseAmount = document.getElementById("expense-amount");
 const expenseType = document.getElementById("expense-type");
 const categories = document.getElementById("categories");
 const expensesDiv = document.getElementById("expenses");
+const payBtn = document.getElementById("pay-btn");
+const paymentCard = document.getElementById("paymentCard");
 
 let expenses = [];
 let editingId = null;
@@ -129,6 +131,53 @@ if(expenseForm){
   });
 }
 
+if (payBtn) {
+  const cashfree = Cashfree({
+    mode: "sandbox",
+  });
+  payBtn.addEventListener("click", async () => {
+    const token = localStorage.getItem("jwt");
+    const createPayment = await axios.post(
+      `${baseUrl}/payment/create`,
+      { },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const paymentSessionId = createPayment.data.sessionId;
+    let checkoutOptions = {
+      paymentSessionId: paymentSessionId,
+    };
+    cashfree.checkout(checkoutOptions);
+  })
+}
+
+if (paymentCard) {
+  document.addEventListener("DOMContentLoaded", async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const orderId = urlParams.get("order_id");
+    if (!orderId) return;
+
+    try {
+      const res = await fetch(`${baseUrl}/payments/order/${orderId}`);
+      const data = await res.json();
+      console.log(data);
+      
+      if (data.orderStatus === "Success") {
+        showSuccessCard(data);
+      } else if (data.orderStatus === "Failure") {
+        showFailedCard(data);
+      } else {
+        showPendingCard(data);
+      }
+    } catch (error) {
+      console.error("Error fetching payment:", error);
+      showFailedCard({ message: "Unable to verify payment." });
+    }
+  });
+}
 
 function renderExpenses() {
   expensesDiv.innerHTML = "";
@@ -171,24 +220,4 @@ function showToast(message, type = "success") {
   setTimeout(() => {
     toast.className = `toast hidden`;
   }, 5000);
-}
-
-const urlParams = new URLSearchParams(window.location.search);
-const orderId = urlParams.get("order_id");
-const amount = urlParams.get("order_amount");
-const paymentStatus = urlParams.get("payment_status");
-const referenceId = urlParams.get("reference_id");
-
-// Displaying order details
-document.getElementById("orderId").textContent = orderId;
-document.getElementById("amount").textContent = amount;
-document.getElementById("referenceId").textContent = referenceId;
-
-// Checking payment status
-if (paymentStatus === "SUCCESS") {
-  document.getElementById("statusMessage").textContent = "Payment Successful!";
-} else {
-  document.getElementById("statusMessage").textContent = "Payment Failed!";
-  document.getElementById("statusMessage").classList.remove("success");
-  document.getElementById("statusMessage").classList.add("failure");
 }
