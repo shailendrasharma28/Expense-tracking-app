@@ -6,6 +6,7 @@ const db = require('./backend/config/db-connection');
 const userRoutes = require('./backend/routes/userRoutes');
 const expenseRoutes = require('./backend/routes/expenseRoutes');
 const paymentRoutes = require('./backend/routes/paymentRoutes');
+const premiumRoutes = require('./backend/routes/premiumRoutes');
 const User = require('./backend/models/userModel');
 const Expenses = require('./backend/models/expenseModel');
 const Payment = require('./backend/models/paymentModel');
@@ -23,6 +24,7 @@ app.use(cors({
 app.use("/users", userRoutes);
 app.use("/expenses", expenseRoutes);
 app.use("/payment", paymentRoutes);
+app.use("/premium", premiumRoutes);
 
 User.hasMany(Expenses, {foreignKey: "user_id", onDelete: "CASCADE"});
 Expenses.belongsTo(User, {foreignKey: "user_id"});

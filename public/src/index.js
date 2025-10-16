@@ -8,6 +8,8 @@ const expenseType = document.getElementById("expense-type");
 const categories = document.getElementById("categories");
 const expensesDiv = document.getElementById("expenses");
 const payBtn = document.getElementById("pay-btn");
+const premiumDiv = document.getElementById("premium-div");
+const leaderboardBtn = document.getElementById("leaderboard-btn");
 
 let expenses = [];
 let editingId = null;
@@ -22,13 +24,21 @@ window.addEventListener("DOMContentLoaded", async () => {
         return;
       }
     }
-    const res = await axios.get(`${baseUrl}/expenses`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    expenses = res.data;
-    renderExpenses();
+    if (expenseForm) {
+      const user = localStorage.getItem("user-details");
+
+      const userJson = JSON.parse(user);
+      if (userJson.is_premium === true) {
+        premiumDiv.classList.remove("hidden");
+      }
+      const res = await axios.get(`${baseUrl}/expenses`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      expenses = res.data;
+      renderExpenses();
+    }
   } catch (err) {
     console.error("Error fetching expenses:", err);
   }
@@ -82,6 +92,7 @@ if (loginForm) {
       } else {
         showToast(res, "success");
         localStorage.setItem("user", true);
+        localStorage.setItem("user-details", JSON.stringify(login.data.user));
         localStorage.setItem("jwt", login.data.token)
         window.location.href = "/frontend/pages/expense.html"
       }
@@ -127,6 +138,27 @@ if(expenseForm){
     } catch (err) {
       console.error("Error saving expense:", err);
     }
+  });
+}
+
+if (leaderboardBtn) {
+  leaderboardBtn.addEventListener("click", async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("jwt");
+    const leaderboardData = await axios.get(`${baseUrl}/premium/leaderboard`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    // Save data temporarily before redirecting
+    localStorage.setItem(
+      "leaderboardData",
+      JSON.stringify(leaderboardData.data.leaderboard)
+    );
+
+    // Now redirect
+    window.location.href = "/frontend/pages/leaderboard.html";
   });
 }
 

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense tracker</title>
+    <link rel="stylesheet" href="/public/src/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
+</head>
+<body>
+    <div id="header">
+        <h1 id="main-heading">EXPENSE TRACKING APP</h1>
+        <button id="pay-btn">Buy Premium</button>
+    </div>
+        <div class="premium-user-div-lb" id="premium-div-lb" >
+            <h2 id="premium-user">You are a premium user!</h2>
+            <button type="submit" id="expensePage-btn">Check Expenses</button>
+        </div>
+        <div id="leaderboard-table">
+        </div>
+    </form>
+
+    <script src="/public/src/index.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const leaderboardTable = document.getElementById("leaderboard-table");
+            const data = JSON.parse(localStorage.getItem("leaderboardData"));
+
+            if (!data) {
+                leaderboardTable.innerHTML = "<p>No leaderboard data found.</p>";
+                return;
+            }
+
+            leaderboardTable.innerHTML = ""; // clear existing content
+            data.forEach((user) => {
+                const row = document.createElement("row-div");
+                row.classList.add("leaderboard-item");
+                row.innerHTML = `
+                    <h2>${user.username}</h2> 
+                    <h2>Total Expenses:</h2>
+                    <h2>₹${user.expenseCount}</h2>
+                `;
+                leaderboardTable.appendChild(row);
+            });
+        });
+        document.getElementById("expensePage-btn").addEventListener("click", (e) => {
+            e.preventDefault();
+            window.location.href = "expense.html"
+        })
+</script>
+
+</body>
+</html>

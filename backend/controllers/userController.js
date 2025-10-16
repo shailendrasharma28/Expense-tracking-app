@@ -47,9 +47,12 @@ const userController = {
             }
             const token = authMiddleware.generateToken(user.id);
             authMiddleware.setTokenCookie(res, token);
+            const response = user.toJSON();
+            delete user.password;
             res.status(200).json({
                 success: true,
                 message: `Hey ${user.name}! You logged in successfully.`,
+                user: response,
                 token: token
             })
         } catch (error) {
