@@ -192,7 +192,7 @@ if (payBtn) {
 }
 
 function renderExpenses() {
-  expensesDiv.innerHTML = "";
+  expensesDiv.innerHTML = "<h1 id=`myexpense-heading`>My Expenses</h1>";
 
   expenses.forEach((exp) => {
     const expenseItem = document.createElement("div");

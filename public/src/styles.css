@@ -44,7 +44,7 @@ body {
   letter-spacing: 15px;
   margin-bottom: 40px;
   margin-top: 0;
-  background-color: #20df76;
+  background-color: rgb(255, 71, 102);
   color: #ffffff;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
   text-transform: capitalize;
@@ -63,7 +63,7 @@ body {
 /* === Form Styling === */
 form {
   background-color: #fff;
-  margin-top: 120px;
+  margin-top: 130px;
   padding: 25px 30px;
   border-radius: 12px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
@@ -117,8 +117,8 @@ select:focus {
 
 #pay-btn {
   padding: 10px 16px;
-  background-color: #ff7f50;
-  color: #fff;
+  background-color: #fafafa;
+  color: rgb(255, 71, 102);
   border: none;
   position: fixed;
   top: 20px;
@@ -133,19 +133,62 @@ select:focus {
 }
 
 #pay-btn:hover {
-  background-color: #ff5722;
+  background-color: #fafafa;
   transform: scale(1.05);
 }
 
 /* === Expense List === */
+#expense-section {
+  margin-top: 40px;
+  display: flex;
+  margin: 0;
+  margin-top: 50px;
+  width: 95%;
+  justify-content: space-around;
+  align-items: start;
+}
+
 .expense-list {
   margin-top: 40px;
   width: 90%;
   max-width: 600px;
-  margin-bottom: 50px;
   display: flex;
   flex-direction: column;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
   gap: 30px;
+  max-height: 540px; /* jitna scroll area chaahiye utna height set karein */
+  overflow-y: auto;  /* vertical scroll enable */
+  overflow-x: hidden; /* horizontal scroll hide */
+  padding: 20px;
+  padding-right: 10px; 
+  height: 100%;
+}
+
+.expense-list::-webkit-scrollbar {
+  width: 0px;
+}
+.expense-list::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+.expense-list::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+
+.expense-list h1{
+  font-family: 'Arial Narrow ExtraBold', sans-serif;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-align: center;
+  padding: 5px 20px;
+  border: 2px solid rgb(255, 135, 155);
+  color: rgb(255, 71, 102);
+  border-radius: 50px;
+  font-size: 2rem;
+  text-transform: uppercase;
 }
 
 .expense-list div {
@@ -195,13 +238,13 @@ select:focus {
 
 /* Description */
 .expense-list h2:nth-child(2) {
-  color: #3f51b5;
+  color: #e91e63;
   font-weight: 700;
 }
 
 /* Category */
 .expense-list h2:nth-child(3) {
-  color: #00a706;
+  color: #e91e63;
 }
 
 /* === Buttons inside each item === */
@@ -226,17 +269,19 @@ select:focus {
 
 #premium-user-div button:hover {
   transform: translateY(-1px);
-  background-color: #00552a;
+  background-color: #f44336;
 }
 
 /* Leaderboard */
 #leaderboard-table {
   margin: 20px;
-  width: 100%;
+  width: 50%;
   max-width: 600px;
   margin-bottom: 50px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
   gap: 30px;
 }
@@ -244,7 +289,7 @@ select:focus {
 .leaderboard-item {
   background-color: #ffffffdd;
   padding: 5px 40px;
-  width: 100%;
+  width: 80%;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   animation: fadeInUp 0.5s ease forwards;
@@ -256,28 +301,30 @@ select:focus {
 }
 
 .leaderboard-item h2:first-child {
-  width: 30%;
+  width: 33%;
   color: #e91e63;
   font-weight: 800;
-  font-size: 1.5rem;
-  text-transform: uppercase;
-}
-
-.leaderboard-item h2:nth-child(2) {
-  font-family: 'Poppins-Bold', sans-serif;
-  color: #0046af;
-  width: 30%;
-  font-weight: 700;
+  text-align: center;
+  line-height: 1.7rem;
   font-size: 1.4rem;
   text-transform: uppercase;
 }
 
-.leaderboard-item h2:nth-child(3) {
-  font-family: 'Poppins-Bold', sans-serif;
-  width: 30%;
+.leaderboard-item h2:nth-child(2) {
   color: #0046af;
+  width: 33%;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.leaderboard-item h2:nth-child(3) {
+  width: 33%;
+  color: #0046af;
+  text-align: center;
   font-weight: 800;
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   text-transform: uppercase;
   letter-spacing: 3px;
 }
@@ -285,6 +332,7 @@ select:focus {
 .premium-user-div {
   display: flex;
   align-items: center;
+  flex-direction: column;
   justify-content: center;
   gap: 10px;
 }
@@ -294,19 +342,19 @@ select:focus {
   margin-top: 100px;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 20px;
 }
 
 #premium-user {
-  font-size: 1rem;
-  color: green;
+  font-size: 1.3rem;
+  color: #ff5618;
   text-align: center;
   text-transform: uppercase;
 }
 
 #premium-user-lb {
   font-size: 1rem;
-  color: green;
+  color: #f44336;;
   text-align: center;
   text-transform: uppercase;
 }
@@ -316,11 +364,22 @@ select:focus {
   font-size: 1rem;
   padding: 10px 12px;
   border-radius: 5px;
-  background-color: green;
+  background-color: #ffffff;
   border: none;
   color: white;
   font-weight: 600;
   cursor: pointer;
+}
+
+#leaderboard-btn:last-of-type {
+  background-color: #f44336;
+  border: none;
+  color: white;
+}
+
+#leaderboard-btn:hover {
+  background-color: #ff4400;
+  transform: translateY(-6px);
 }
 
 #expensePage-btn {
@@ -328,7 +387,7 @@ select:focus {
   font-size: 1rem;
   padding: 10px 12px;
   border-radius: 5px;
-  background-color: green;
+  background-color: #f44336;;
   border: none;
   color: white;
   font-weight: 600;
@@ -337,7 +396,7 @@ select:focus {
 
 .premium-user-div-lb button:hover {
   transform: translateY(-1px);
-  background-color: #00552a;
+  background-color: #f44336;;
 }
 
 .hidden {
@@ -357,6 +416,18 @@ select:focus {
   pointer-events: none;
   transition: opacity 0.5s ease, bottom 0.5s ease;
   z-index: 9999;
+}
+
+#leaderboard-table h1{
+  font-family: 'Arial Narrow ExtraBold', sans-serif;
+  font-weight: 800;
+  letter-spacing: 3px;
+  padding: 5px 20px;
+  border: 2px solid rgb(255, 135, 155);
+  color: rgb(255, 71, 102);
+  border-radius: 50px;
+  font-size: 2rem;
+  text-transform: uppercase;
 }
 
 .toast.show {

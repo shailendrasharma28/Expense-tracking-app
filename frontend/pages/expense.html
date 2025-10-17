@@ -13,35 +13,36 @@
         <h1 id="main-heading">EXPENSE TRACKING APP</h1>
         <button id="pay-btn">Buy Premium</button>
     </div>
+    <div id="expense-section">
+        <form action="" id="expense-form">
+            <label for="expense-amount">
+                Choose expense Amount:
+                <input type="number" id="expense-amount">
+            </label>
+            <label for="expense-type">
+                Choose description:
+                <input type="text" id="expense-type">
+            </label>
+            <label for="categories">
+                Choose a category:
+                <select name="categories" id="categories">
+                    <option value="movie">Movie</option>
+                    <option value="health">Health</option>
+                    <option value="food">Food</option>
+                    <option value="education">Education</option>
+                </select>
+            </label>
+            <button type="submit" id="submit-btn">Add expense</button>
 
-    <form action="" id="expense-form">
-        <label for="expense-amount">
-            Choose expense Amount:
-            <input type="number" id="expense-amount">
-        </label>
-        <label for="expense-type">
-            Choose description:
-            <input type="text" id="expense-type">
-        </label>
-        <label for="categories">
-            Choose a category:
-            <select name="categories" id="categories">
-                <option value="movie">Movie</option>
-                <option value="health">Health</option>
-                <option value="food">Food</option>
-                <option value="education">Education</option>
-            </select>
-        </label>
-        <button type="submit" id="submit-btn">Add expense</button>
+            <div class="hidden premium-user-div" id="premium-div">
+                <h2 id="premium-user">You are a premium user!</h2>
+                <button type="submit" id="leaderboard-btn">Leaderboard</button>
+            </div>
+        </form>
 
-        <div class="hidden premium-user-div" id="premium-div" >
-            <h2 id="premium-user">You are a premium user!</h2>
-            <button type="submit" id="leaderboard-btn">Leaderboard</button>
-        </div>
-    </form>
-
-    <div class="expense-list" id="expenses"></div>
-    <div id="toast" class="toast hidden"></div>
+        <div class="expense-list" id="expenses"></div>
+        <div id="toast" class="toast hidden"></div>
+    </div>
 
     <script src="/public/src/index.js"></script>
 </body>

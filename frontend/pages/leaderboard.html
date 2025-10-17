@@ -32,7 +32,7 @@
                 return;
             }
 
-            leaderboardTable.innerHTML = ""; // clear existing content
+            leaderboardTable.innerHTML = "<h1 id=`leaderboard-heading`>Leader Board</h1>"; // clear existing content
             data.forEach((user) => {
                 let expenseCount = user.expenseCount
                 if(expenseCount === null){
