@@ -361,7 +361,7 @@ select:focus {
 
 .toast.show {
   opacity: 1;
-  bottom: 550px;
+  bottom: 540px;
   pointer-events: auto;
 }
 

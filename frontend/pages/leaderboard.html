@@ -34,12 +34,16 @@
 
             leaderboardTable.innerHTML = ""; // clear existing content
             data.forEach((user) => {
+                let expenseCount = user.expenseCount
+                if(expenseCount === null){
+                    expenseCount = 0;
+                }
                 const row = document.createElement("row-div");
                 row.classList.add("leaderboard-item");
                 row.innerHTML = `
-                    <h2>${user.username}</h2> 
+                    <h2>${user.name}</h2> 
                     <h2>Total Expenses:</h2>
-                    <h2>₹${user.expenseCount}</h2>
+                    <h2>₹${expenseCount}</h2>
                 `;
                 leaderboardTable.appendChild(row);
             });

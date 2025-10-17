@@ -167,6 +167,12 @@ if (payBtn) {
     mode: "sandbox",
   });
   payBtn.addEventListener("click", async () => {
+     const user = localStorage.getItem("user-details");
+    const userJson = JSON.parse(user);
+    if(userJson.is_premium === true){
+      showToast("You are already a premium user!", "success");
+      return
+    }
     const token = localStorage.getItem("jwt");
     const createPayment = await axios.post(
       `${baseUrl}/payment/create`,
