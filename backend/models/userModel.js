@@ -24,6 +24,10 @@ User.init({
         type: DataTypes.STRING(255),
         allowNull: false,
     },
+    totalExpense: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+    },
     is_premium: {
         type: DataTypes.BOOLEAN,
         allowNull: false,

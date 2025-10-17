@@ -13,9 +13,8 @@ const premiumController = {
         }
         try {
             const leaderboard = await User.findAll({
-              attributes: ["id", "name", [fn("SUM", col("expenseAmount")), "expenseCount"]],
-              include: {model: Expenses, attributes: []},
-              group: ["user_id"],
+              attributes: ["id", "name", [fn("SUM", col("totalExpense")), "expenseCount"]],
+              group: ["id"],
               order: [["expenseCount", "DESC"]]
             });
             res.status(200).json({
