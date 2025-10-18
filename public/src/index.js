@@ -10,6 +10,10 @@ const expensesDiv = document.getElementById("expenses");
 const payBtn = document.getElementById("pay-btn");
 const premiumDiv = document.getElementById("premium-div");
 const leaderboardBtn = document.getElementById("leaderboard-btn");
+const sendMailForm = document.getElementById("sendMail-form");
+const backToLoginForm = document.getElementById("back-to-login-form");
+const newPassForm = document.getElementById("newPass-form");
+const backToLoginAfterPassForm = document.getElementById("back-to-login-after-pass-form");
 
 let expenses = [];
 let editingId = null;
@@ -78,7 +82,7 @@ if (signupForm) {
 if (loginForm) {
   loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-
+    localStorage.clear()
     const email = document.getElementById("login-email").value;
     const password = document.getElementById("login-password").value;
 
@@ -222,6 +226,69 @@ window.deleteExpense = async function (id) {
   }
 };
 
+if(sendMailForm){
+  document.getElementById("sendMail-btn").addEventListener("click", async(e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value;
+    console.log(email);
+    
+    const sendOTP = await axios.post(`${baseUrl}/password/send-mail`, {email});
+    const res = sendOTP.data
+    console.log(res);
+    
+    if(res.success === false){
+      showToast(res.message, error);
+      return
+    }
+    localStorage.setItem("userId", res.userId)
+    showToast(res.message, "success");
+    sendMailForm.classList.add("hidden");
+    backToLoginForm.classList.remove("hidden");
+  })
+}
+
+if(backToLoginForm){
+  const createNewPassword = document.getElementById("back-to-login-btn");
+  createNewPassword.addEventListener("click", async (e) => {
+    e.preventDefault();
+    window.location.href = "/index.html"
+  })
+}
+
+if(newPassForm){
+  newPassForm.addEventListener("submit", async(e) => {
+    e.preventDefault();
+
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token'); 
+    console.log(token);
+    
+    const new_password = document.getElementById("new_pass").value;
+    console.log(new_password);
+    
+    const createNewPassword = await axios.post(`${baseUrl}/password/forgotpassword`, {new_password, token});
+    const res = createNewPassword.data
+    console.log(res);
+    
+    if(res.success === false){
+      showToast(res.message, error);
+      return
+    }
+    localStorage.setItem("userId", res.userId)
+    showToast(res.message, "success");
+    newPassForm.classList.add("hidden");
+    backToLoginAfterPassForm.classList.remove("hidden");
+  })
+}
+
+if(backToLoginAfterPassForm){
+  const createNewPassword = document.getElementById("back-to-login-after-pass-btn");
+  createNewPassword.addEventListener("click", async (e) => {
+    e.preventDefault();
+    window.location.href = "/index.html"
+  })
+}
 
 function showToast(message, type = "success") {
   const toast = document.getElementById("toast");

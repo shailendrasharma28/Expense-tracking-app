@@ -4,12 +4,14 @@ const app = express();
 const cors = require("cors");
 const db = require('./backend/config/db-connection');
 const userRoutes = require('./backend/routes/userRoutes');
+const forgetPassRoutes = require('./backend/routes/forgetPassRoutes');
 const expenseRoutes = require('./backend/routes/expenseRoutes');
 const paymentRoutes = require('./backend/routes/paymentRoutes');
 const premiumRoutes = require('./backend/routes/premiumRoutes');
 const User = require('./backend/models/userModel');
 const Expenses = require('./backend/models/expenseModel');
 const Payment = require('./backend/models/paymentModel');
+const ForgetPasswordRequest = require('./backend/models/forgetPasswordRequests');
 
 // Port Defined...
 const port = 4000;
@@ -22,6 +24,7 @@ app.use(cors({
 }));
 
 app.use("/users", userRoutes);
+app.use("/password", forgetPassRoutes);
 app.use("/expenses", expenseRoutes);
 app.use("/payment", paymentRoutes);
 app.use("/premium", premiumRoutes);
@@ -31,6 +34,9 @@ Expenses.belongsTo(User, {foreignKey: "user_id"});
 
 User.hasMany(Payment, {foreignKey: "user_id", onDelete: "CASCADE"});
 Payment.belongsTo(User, {foreignKey: "user_id"});
+
+User.hasMany(ForgetPasswordRequest, {foreignKey: "user_id", onDelete: "CASCADE"});
+ForgetPasswordRequest.belongsTo(User, {foreignKey: "user_id"});
 
 // Middleware which logs the method of request and Url
 app.use((req, res, next) => {

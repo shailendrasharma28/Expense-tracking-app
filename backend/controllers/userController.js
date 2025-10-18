@@ -31,7 +31,7 @@ const userController = {
         try {
             const user = await User.findOne({where: {email: email}});
             if(!user){
-                res.status(404).json({
+                return res.status(404).json({
                     success: false,
                     message: `User not found with given ${email}!`
                 })
@@ -39,7 +39,7 @@ const userController = {
 
             const isPasswordValid = await bcrypt.compare(password, user.password);
             if(!isPasswordValid){
-                res.status(401).json({
+                return res.status(401).json({
                     success: false,
                     message: `User not authorized, Password is invalid!`,
                     userId: user.id
