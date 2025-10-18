@@ -32,7 +32,7 @@ body {
   text-transform: capitalize;
 }
 
- #main-heading  {
+#main-heading {
   font-family: 'Poppins-Semibold', sans-serif;
   font-size: 3rem;
   font-weight: 800;
@@ -158,27 +158,32 @@ select:focus {
   align-items: center;
   justify-content: start;
   gap: 30px;
-  max-height: 540px; /* jitna scroll area chaahiye utna height set karein */
-  overflow-y: auto;  /* vertical scroll enable */
-  overflow-x: hidden; /* horizontal scroll hide */
+  max-height: 540px;
+  /* jitna scroll area chaahiye utna height set karein */
+  overflow-y: auto;
+  /* vertical scroll enable */
+  overflow-x: hidden;
+  /* horizontal scroll hide */
   padding: 20px;
-  padding-right: 10px; 
+  padding-right: 10px;
   height: 100%;
 }
 
 .expense-list::-webkit-scrollbar {
   width: 0px;
 }
+
 .expense-list::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 10px;
 }
+
 .expense-list::-webkit-scrollbar-thumb:hover {
   background-color: rgba(0, 0, 0, 0.3);
 }
 
 
-.expense-list h1{
+.expense-list h1 {
   font-family: 'Arial Narrow ExtraBold', sans-serif;
   font-weight: 800;
   letter-spacing: 3px;
@@ -354,30 +359,34 @@ select:focus {
 
 #premium-user-lb {
   font-size: 1rem;
-  color: #f44336;;
+  color: #f44336;
+  ;
   text-align: center;
   text-transform: uppercase;
 }
 
-#leaderboard-btn {
+#leaderboard-btn,
+#reports-btn {
   margin-right: 10px;
   font-size: 1rem;
   padding: 10px 12px;
   border-radius: 5px;
-  background-color: #ffffff;
+  background-color: #f44346;
   border: none;
   color: white;
   font-weight: 600;
   cursor: pointer;
 }
 
-#leaderboard-btn:last-of-type {
+#leaderboard-btn:last-of-type,
+#reports-btn:last-of-type {
   background-color: #f44336;
   border: none;
   color: white;
 }
 
-#leaderboard-btn:hover {
+#leaderboard-btn:hover,
+#reports-btn:hover {
   background-color: #ff4400;
   transform: translateY(-6px);
 }
@@ -387,7 +396,8 @@ select:focus {
   font-size: 1rem;
   padding: 10px 12px;
   border-radius: 5px;
-  background-color: #f44336;;
+  background-color: #f44336;
+  ;
   border: none;
   color: white;
   font-weight: 600;
@@ -396,7 +406,8 @@ select:focus {
 
 .premium-user-div-lb button:hover {
   transform: translateY(-1px);
-  background-color: #f44336;;
+  background-color: #f44336;
+  ;
 }
 
 .hidden {
@@ -418,7 +429,7 @@ select:focus {
   z-index: 9999;
 }
 
-#leaderboard-table h1{
+#leaderboard-table h1 {
   font-family: 'Arial Narrow ExtraBold', sans-serif;
   font-weight: 800;
   letter-spacing: 3px;
@@ -428,6 +439,59 @@ select:focus {
   border-radius: 50px;
   font-size: 2rem;
   text-transform: uppercase;
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 80px;
+}
+
+.header {
+  text-align: center;
+  padding: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.table th,
+.table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.table th {
+  background-color: #f4f4f4;
+}
+
+.totals {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.download-btn {
+  display: block;
+  width: 200px;
+  margin: 20px auto;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.download-btn:hover {
+  background-color: #45a049;
 }
 
 .toast.show {

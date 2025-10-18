@@ -10,6 +10,7 @@ const expensesDiv = document.getElementById("expenses");
 const payBtn = document.getElementById("pay-btn");
 const premiumDiv = document.getElementById("premium-div");
 const leaderboardBtn = document.getElementById("leaderboard-btn");
+const reportsBtn = document.getElementById("reports-btn");
 const sendMailForm = document.getElementById("sendMail-form");
 const backToLoginForm = document.getElementById("back-to-login-form");
 const newPassForm = document.getElementById("newPass-form");
@@ -147,6 +148,27 @@ if(expenseForm){
 
 if (leaderboardBtn) {
   leaderboardBtn.addEventListener("click", async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("jwt");
+    const leaderboardData = await axios.get(`${baseUrl}/premium/leaderboard`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    // Save data temporarily before redirecting
+    localStorage.setItem(
+      "leaderboardData",
+      JSON.stringify(leaderboardData.data.leaderboard)
+    );
+
+    // Now redirect
+    window.location.href = "/frontend/pages/leaderboard.html";
+  });
+}
+
+if (reportsBtn) {
+  reportsBtn.addEventListener("click", async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("jwt");
     const leaderboardData = await axios.get(`${baseUrl}/premium/leaderboard`, {
