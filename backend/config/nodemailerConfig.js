@@ -9,9 +9,9 @@ const transporter = nodemailer.createTransport({
 
 const sendNewMail = async (email, token) => {
   const info = await transporter.sendMail({
-    from: '"Expense Tracker" <techshailendra.28@gmail.com>',
+    from: '"Expense Tracker" <no-reply>',
     to: email,
-    subject: "Otp for change password",
+    subject: "Reset Password Link!",
     text: `
     Forget Password! Don't worry click on the link and reset your password.
     <a href="http://localhost:4000/password/resetpassword/${token}"/>
