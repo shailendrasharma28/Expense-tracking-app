@@ -148,7 +148,19 @@ select:focus {
   align-items: start;
 }
 
-.expense-list {
+.pagination {
+  display: flex;
+  width: fit-content;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+  
+}
+
+.expense-list, .container-expense {
   margin-top: 40px;
   width: 90%;
   max-width: 600px;
@@ -167,6 +179,23 @@ select:focus {
   padding: 20px;
   padding-right: 10px;
   height: 100%;
+}
+
+.container-expense{
+  justify-content: space-evenly;
+  height: 100vh;
+  padding: 20px;
+  margin: 0;
+}
+
+.prev, .next {
+  border: none;
+  background-color: #ff4747;
+  color: #ffffff;
+  padding: 5px 10px;
+  border-radius: 20px;
+  width: 60px;
+  cursor: pointer;
 }
 
 .expense-list::-webkit-scrollbar {
