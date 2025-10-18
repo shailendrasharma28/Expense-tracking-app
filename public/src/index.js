@@ -7,6 +7,7 @@ const expenseAmount = document.getElementById("expense-amount");
 const expenseType = document.getElementById("expense-type");
 const categories = document.getElementById("categories");
 const expensesDiv = document.getElementById("expenses");
+const paginationUl = document.getElementById("pagination-ui");
 const payBtn = document.getElementById("pay-btn");
 const premiumDiv = document.getElementById("premium-div");
 const leaderboardBtn = document.getElementById("leaderboard-btn");
@@ -36,7 +37,7 @@ window.addEventListener("DOMContentLoaded", async () => {
       if (userJson.is_premium === true) {
         premiumDiv.classList.remove("hidden");
       }
-      const res = await axios.get(`${baseUrl}/expenses`, {
+      const res = await axios.get(`${baseUrl}/expenses?limit=5&page=1`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -218,9 +219,22 @@ if (payBtn) {
 }
 
 function renderExpenses() {
-  expensesDiv.innerHTML = "<h1 id=`myexpense-heading`>My Expenses</h1>";
+  expensesDiv.innerHTML = "<h1 id='myexpense-heading'>My Expenses</h1>";
 
-  expenses.forEach((exp) => {
+  const pagesUl = document.getElementById("pages-ul");
+  const totalPages = expenses.totalPages;
+  console.log("Total Pages:", totalPages);
+
+  for (let i = 1; i <= totalPages; i++) {
+    const paginationPageItem = document.createElement("li");
+    paginationPageItem.textContent = i; // show the page number
+    paginationPageItem.setAttribute("data-page", i); // optional for click handler
+    paginationPageItem.classList.add("page-item");
+
+    pagesUl.appendChild(paginationPageItem);
+  }
+
+  expenses.rows.forEach((exp) => {
     const expenseItem = document.createElement("div");
     expenseItem.innerHTML = `
         <h2>₹${exp.expenseAmount}</h2>
