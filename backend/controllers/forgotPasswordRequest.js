@@ -22,8 +22,6 @@ const forgotPasswordReqController = {
                 userId: findUser.id
             })
         } catch (error) {
-            console.log(error);
-            
             res.status(500).json({
                 success: false,
                 message: "Error sending mail!"
@@ -46,22 +44,19 @@ const forgotPasswordReqController = {
                     success: false,
                     message: "request expired!",
                 })
-            }
-            console.log(forgetPassReq);
+            };
             
-            const findUser = await User.findOne({where: {id: forgetPassReq.user_id}}, transaction);
-            console.log(findUser);
-            
-            await findUser.update({password: new_password}, {transaction});
+            const findUser = await User.findOne({where: {id: forgetPassReq.user_id}, transaction});
             if (!findUser){
                 return res.status(404).json({
                     success: false,
                     message: "user not found!",
                 })
             }
+            await findUser.update({password: new_password}, {transaction});
+            await forgetPassReq.update({is_active: false}, {transaction});
             const userId = findUser.id
             console.log("password change successfully!", findUser.password, userId );
-            await forgetPassReq.update({is_active: false}, {transaction});
             await transaction.commit();
             res.status(200).json({
                 success: true,
@@ -70,8 +65,6 @@ const forgotPasswordReqController = {
             })
         } catch (error) {
             await transaction.rollback();
-            console.log(error);
-            
             res.status(500).json({
                 success: false,
                 message: "Error changing password!"
