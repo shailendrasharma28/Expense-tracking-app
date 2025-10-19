@@ -1,10 +1,13 @@
 const nodemailer = require("nodemailer");
+require("dotenv").config({quite:true});
+const MAIL_ID = process.env.MAIL_ID;
+const MAIL_USER_PASS = process.env.MAIL_USER_PASS;
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-      user: 'smomediatechtemple@gmail.com', // Replace with your email
-      pass: 'yrsjiuwmxrmspgbf' // Replace with your email password or app password
+      user: MAIL_ID, 
+      pass: MAIL_USER_PASS 
   }});
 
 const sendNewMail = async (email, token) => {

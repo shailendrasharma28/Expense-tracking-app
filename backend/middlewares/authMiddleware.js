@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
-const JWT_SECRET = "secret_jwt"
-const JWT_EXPIRES_IN = '15d';
-const COOKIE_EXPIRES_IN = 15 * 24 * 60 * 60 * 1000; // 15 Days in milliseconds
+const JWT_SECRET = process.env.JWT_SECRET
+const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN
+const COOKIE_EXPIRES_IN = process.env.COOKIE_EXPIRES_IN // 15 Days in milliseconds
 
 const authMiddleware = {
   generateToken: (userId) => {
