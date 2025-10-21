@@ -89,37 +89,94 @@ button:hover {
   max-width: 600px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 30px;
 }
 
-.expense-list div:first-child {
-  background-color: #ffffffdd;
-  padding: 10px 20px;
-  width: 100%;
-  border-radius: 10px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-  animation: fadeInUp 0.5s ease forwards;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: transform 0.3s ease;
-}
-
-.expense-list div:nth-child(2) {
-  padding: 15px 10px;
-  border-radius: 10px;
-  width: 40%;
-  animation: fadeInUp 0.5s ease forwards;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  transition: transform 0.3s ease;
-}
 
 .expense-list div:hover {
   transform: translateY(-3px);
 }
+
+/* === Expense Item Container === */
+.expense-item {
+  background-color: #ffffffdd;
+  padding: 15px 20px;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  display: flex;
+  width: 100%;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.3s ease;
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.expense-item:hover {
+  transform: translateY(-3px);
+}
+
+/* === Details Section === */
+.expense-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  gap: 40px;
+}
+
+.expense-details .expense-amount {
+  color: #e91e63;
+  font-weight: 600;
+  font-size: 1.25rem;
+  text-align: center;
+}
+
+.expense-details .expense-description {
+  color: #3f51b5;
+  text-align: center;
+}
+
+.expense-details .expense-category {
+  color: #4caf50;
+  margin-right: 20px;
+  text-align: center;
+}
+
+/* === Buttons Section === */
+.expense-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.expense-actions .delete-btn {
+  background-color: #f44336;
+  width: 90px;
+}
+
+.expense-actions .edit-btn {
+  background-color: #2196f3;
+  width: 90px;
+}
+
+.expense-actions button {
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 7px 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.expense-actions button:hover {
+  transform: translateY(-2px);
+}
+
 
 /* === Inner content for expense details === */
 .expense-list div > div {

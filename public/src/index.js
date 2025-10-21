@@ -53,17 +53,20 @@ function renderExpenses() {
 
   expenses.forEach((exp) => {
     const expenseItem = document.createElement("div");
+    expenseItem.classList.add("expense-item"); // 👈 main container
+
     expenseItem.innerHTML = `
-      <div>
-        <h2>₹${exp.expenseAmount}</h2>
-        <h2>${exp.description}</h2>
-        <h2>${exp.category}</h2>
+      <div class="expense-details">
+        <h2 class="expense-amount">₹${exp.expenseAmount}</h2>
+        <h2 class="expense-description">${exp.description}</h2>
+        <h2 class="expense-category">${exp.category}</h2>
       </div>
-      <div>
-        <button onclick="deleteExpense(${exp.id})">Delete</button>
-        <button onclick="editExpense(${exp.id})">Edit</button>
+      <div class="expense-actions">
+        <button class="delete-btn" onclick="deleteExpense(${exp.id})">Delete</button>
+        <button class="edit-btn" onclick="editExpense(${exp.id})">Edit</button>
       </div>
     `;
+
     expensesDiv.appendChild(expenseItem);
   });
 }
