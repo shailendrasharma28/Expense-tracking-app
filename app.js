@@ -16,7 +16,7 @@ const ForgetPasswordRequest = require('./backend/models/forgetPasswordRequests')
 const { default: helmet } = require('helmet');
 const compression = require('compression');
 const morgan = require('morgan');
-
+require("dotenv").config({ quiet: true })
 // Port Defined...
 const PORT = process.env.PORT;
 app.use(express.static(path.join(__dirname, "public/src")));

@@ -175,7 +175,14 @@ select:focus {
 #pages-ul li {
   margin: 0;
   padding: 1px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.active {
+  margin: 0;
   background-color: #ddd;
+  padding: 1px 10px;
   border-radius: 20px;
   cursor: pointer;
 }

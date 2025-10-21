@@ -16,8 +16,9 @@ const sendMailForm = document.getElementById("sendMail-form");
 const backToLoginForm = document.getElementById("back-to-login-form");
 const newPassForm = document.getElementById("newPass-form");
 const backToLoginAfterPassForm = document.getElementById("back-to-login-after-pass-form");
+const pageLimit = document.getElementById("limit-select");
 
-let expenses = [];
+let expenses = {};
 let editingId = null;
 
 // Initial load
@@ -136,7 +137,7 @@ if(expenseForm){
             Authorization: `Bearer ${token}`,
           },
         });
-        expenses.push(res.data);
+        expenses.rows.push(res.data);
       }
 
       renderExpenses();
@@ -145,6 +146,12 @@ if(expenseForm){
       console.error("Error saving expense:", err);
     }
   });
+}
+
+if(pageLimit){
+  pageLimit.addEventListener("change", (e) => {
+    const selectedValue = e.target.value;
+  } )
 }
 
 if (leaderboardBtn) {
@@ -222,13 +229,13 @@ function renderExpenses() {
   expensesDiv.innerHTML = "<h1 id='myexpense-heading'>My Expenses</h1>";
 
   const pagesUl = document.getElementById("pages-ul");
-  const totalPages = expenses.totalPages;
+  const totalPages = expenses.totalPages || 7;
   console.log("Total Pages:", totalPages);
 
   for (let i = 1; i <= totalPages; i++) {
     const paginationPageItem = document.createElement("li");
-    paginationPageItem.textContent = i; // show the page number
-    paginationPageItem.setAttribute("data-page", i); // optional for click handler
+    paginationPageItem.textContent = i; 
+    paginationPageItem.setAttribute("value", i); 
     paginationPageItem.classList.add("page-item");
 
     pagesUl.appendChild(paginationPageItem);
@@ -255,7 +262,7 @@ window.deleteExpense = async function (id) {
         Authorization: `Bearer ${token}`
       }
     });
-    expenses = expenses.filter((exp) => exp.id !== id);
+    expenses.rows = expenses.rows.filter((exp) => exp.id !== id);
     renderExpenses();
   } catch (err) {
     console.error("Error deleting expense:", err);
