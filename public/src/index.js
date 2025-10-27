@@ -244,12 +244,15 @@ function renderExpenses() {
 
   expenses.rows.forEach((exp) => {
     const expenseItem = document.createElement("div");
+    expenseItem.classList.add("expense-item"); // 👈 main container
+
     expenseItem.innerHTML = `
         <h2>₹${exp.expenseAmount}</h2>
         <h2>${exp.description}</h2>
         <h2>${exp.category}</h2>
         <button onclick="deleteExpense(${exp.id})">Delete</button>
     `;
+
     expensesDiv.appendChild(expenseItem);
   });
 }

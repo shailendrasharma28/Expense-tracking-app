@@ -254,20 +254,37 @@ select:focus {
 
 .expense-list div {
   background-color: #ffffffdd;
-  padding: 10px 20px;
-  width: 100%;
+  padding: 15px 20px;
   border-radius: 10px;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-  animation: fadeInUp 0.5s ease forwards;
   display: flex;
+  width: 100%;
+  gap: 20px;
   justify-content: space-between;
   align-items: center;
   transition: transform 0.3s ease;
+  animation: fadeInUp 0.5s ease forwards;
 }
 
 .expense-list div:hover {
   transform: translateY(-3px);
 }
+
+.expense-actions button {
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 7px 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.expense-actions button:hover {
+  transform: translateY(-2px);
+}
+
 
 /* === Inner content for expense details === */
 .expense-list div>div {
