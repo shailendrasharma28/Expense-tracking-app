@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense tracker</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        /* General page setup */
+        body {
+            font-family: "Poppins", sans-serif;
+            background: white;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Popup form container */
+        form {
+            background: #fff;
+            position: fixed;
+            top: 50px;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            width: 320px;
+            text-align: center;
+            animation: popIn 0.4s ease;
+        }
+
+        /* Form labels and inputs */
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+            text-align: left;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            transition: border 0.2s ease;
+        }
+
+        input:focus {
+            border-color: #2575fc;
+            outline: none;
+        }
+
+        /* Buttons */
+        button {
+            width: 100%;
+            background: #2575fc;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        button:hover {
+            background: #1b5edb;
+        }
+
+        /* Hidden class (for toggling forms) */
+        .hidden {
+            display: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+            bottom: 540px;
+            pointer-events: auto;
+        }
+
+        .toast.success {
+            background-color: #28a745;
+        }
+
+        .toast.error {
+            background-color: #dc3545;
+        }
+
+        .toast.hidden {
+            display: none;
+        }
+
+
+        /* Popup animation */
+        @keyframes popIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header" style="position: fixed; top: 0;">
+        <h1 id="main-heading">EXPENSE TRACKING APP</h1>
+    </div>
+    <form action="" id="newPass-form" , class="">
+        <label for="new_pass">Create New Password:</label>
+        <input type="text" name="new_pass" id="new_pass" required>
+
+        <button type="submit" id="createNewPass-btn">Create Password</button>
+    </form>
+    <form action="" id="back-to-login-after-pass-form" , class="hidden">
+        <h1 style="color: #28a745;">Password Changed SuccessFully!</h1>
+        <p style="color: #28a745;">Please go to login page and login with new password!</p>
+        <button type="submit" id="back-to-login-after-pass-btn">Back to login</button>
+    </form>
+    <div id="toast" class="toast hidden"></div>
+
+    <script src="/index.js"></script>
+</body>
+
+</html>

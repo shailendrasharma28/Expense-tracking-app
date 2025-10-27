@@ -1,10 +1,15 @@
 const Expenses = require("../models/expenseModel");
+const User = require("../models/userModel");
 
 const expenseController = {
     add: async (req, res) => {
         const {expenseAmount, description, category} = req.body;
+        const userId = req.user.id;
         try {
-            const expense = await Expenses.create({expenseAmount, description, category});
+            const expense = await Expenses.create({user_id: userId, expenseAmount, description, category});
+            let totalExpense = req.user.totalExpense;
+            totalExpense = Number(totalExpense) + Number(expenseAmount);
+            await User.update({totalExpense: totalExpense}, {where: {id: userId}});
             res.status(201).json(expense);
         } catch (error) {
             res.status(500).json({
@@ -15,10 +20,26 @@ const expenseController = {
     },
 
     get: async (req, res) => {
+        const userId = req.user.id;
+        const {limit = 10, page = 1} = req.query;
         try {
-            const expenses = await Expenses.findAll();
-            res.status(200).json(expenses);
+            const {count, rows} = await Expenses.findAndCountAll({
+                where: {user_id: userId},
+                limit: Number(limit),
+                offset: (Number(page) - 1) * Number(limit),
+                order: [["createdAt", "DESC"]]
+            });
+            const result ={
+                rows,
+                count,
+                currentPage: Number(page),
+                totalPages: Math.ceil(count/ Number(limit))
+            }
+            
+            res.status(200).json(result);
         } catch (error) {
+            console.log(error);
+            
             res.status(500).json({
                 message: "Error fetching expenses!",
                 error: error.message
@@ -46,11 +67,16 @@ const expenseController = {
 
     delete: async (req, res) => {
         const {id} = req.params;
+        const userId = req.user.id;
         try {
-            await Expenses.destroy({where: {id}})
+            const existExpense = await Expenses.findByPk(id)
+            await Expenses.destroy({where: {id: id, user_id: userId}})
             res.status(200).json({
                 message: "Expense deleted!"
             });
+            let totalExpense = req.user.totalExpense;
+            totalExpense = Number(totalExpense) - Number(existExpense.expenseAmount);
+            await User.update({totalExpense: totalExpense}, {where: {id: userId}});
         } catch (error) {
             res.status(500).json({
                 message: "Error deleting expenses!",

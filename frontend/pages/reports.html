@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense tracker</title>
+    <link rel="stylesheet" href="/public/src/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
+</head>
+<body>
+    <div id="header">
+        <h1 id="main-heading">EXPENSE TRACKING APP</h1>
+        <button id="pay-btn">Buy Premium</button>
+    </div>
+        <div class="container">
+            <div class="header">
+                <h2>Day to Day Expenses</h2>
+                <p>March 2021</p>
+            </div>
+        
+            <!-- Daily Expenses Table -->
+            <table class="table" id="expense-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Income</th>
+                        <th>Expenses</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Repeat these rows for each expense entry -->
+                    <tr>
+                        <td>01-03-2021</td>
+                        <td>Milk</td>
+                        <td>Groceries</td>
+                        <td>0.00</td>
+                        <td>60.00</td>
+                    </tr>
+                    <tr>
+                        <td>02-03-2021</td>
+                        <td>Salary</td>
+                        <td>Income</td>
+                        <td>2000.00</td>
+                        <td>0.00</td>
+                    </tr>
+                    <!-- Add more rows as needed -->
+                </tbody>
+            </table>
+        
+            <!-- Monthly and Yearly Totals -->
+            <div class="totals">
+                <p><strong>Monthly Total:</strong> $2500.00</p>
+                <p><strong>Yearly Total:</strong> $30,000.00</p>
+            </div>
+        
+            <!-- Download Button -->
+            <button class="download-btn" onclick="downloadCSV()">Download Report</button>
+        </div>
+    
+        <div id="toast" class="toast hidden"></div>
+    </div>
+
+    <script src="/public/src/index.js"></script>
+    <script>
+         function downloadCSV() {
+            const table = document.getElementById("expense-table");
+            let csv = [];
+            
+            // Get headers
+            const headers = Array.from(table.querySelectorAll("th")).map(th => th.innerText);
+            csv.push(headers.join(","));
+
+            // Get rows data
+            const rows = table.querySelectorAll("tbody tr");
+            rows.forEach(row => {
+                const rowData = Array.from(row.querySelectorAll("td")).map(td => td.innerText);
+                csv.push(rowData.join(","));
+            });
+
+            // Convert to CSV string
+            const csvString = csv.join("\n");
+
+            // Create a Blob and create a download link
+            const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+
+            link.setAttribute("href", url);
+            link.setAttribute("download", "expense_report.csv");
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
