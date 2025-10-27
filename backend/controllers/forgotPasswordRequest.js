@@ -81,7 +81,7 @@ const forgotPasswordReqController = {
                     <h1>Bad token or already completed request</h1>
                 `)
             }
-            const frontendUrl = `http://localhost:5500/frontend/pages/resetPass.html?token=${encodeURIComponent(token)}`
+            const frontendUrl = `http://localhost:4000/reset-password?token=${encodeURIComponent(token)}`
             res.redirect(302, frontendUrl);
         } catch (error) {
             res.status(500).json({

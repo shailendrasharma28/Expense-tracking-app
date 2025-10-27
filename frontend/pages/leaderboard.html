@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Expense tracker</title>
-    <link rel="stylesheet" href="/public/src/styles.css">
+    <link rel="stylesheet" href="/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
 </head>
@@ -21,7 +21,7 @@
         </div>
     </form>
 
-    <script src="/public/src/index.js"></script>
+    <script src="/index.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const leaderboardTable = document.getElementById("leaderboard-table");
@@ -50,7 +50,7 @@
         });
         document.getElementById("expensePage-btn").addEventListener("click", (e) => {
             e.preventDefault();
-            window.location.href = "expense.html"
+            window.location.href = "/expense/dashboard"
         })
 </script>
 

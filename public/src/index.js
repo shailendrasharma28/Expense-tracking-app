@@ -26,8 +26,9 @@ window.addEventListener("DOMContentLoaded", async () => {
   try {
     const token = localStorage.getItem("jwt");
     if (!token) {
-      if (window.location.pathname !== "/index.html") {
-        window.location.href = "/index.html";
+      const allowPath = ["/login", "/signup", "/forget-password", "/reset-password"]
+      if ( !allowPath.includes(window.location.pathname)) {
+        window.location.href = "/login";
         return;
       }
     }
@@ -101,7 +102,7 @@ if (loginForm) {
         localStorage.setItem("user", true);
         localStorage.setItem("user-details", JSON.stringify(login.data.user));
         localStorage.setItem("jwt", login.data.token)
-        window.location.href = "/frontend/pages/expense.html"
+        window.location.href = "/expense/dashboard"
       }
     } catch (error) {
       console.error("Error:", error);
@@ -171,7 +172,7 @@ if (leaderboardBtn) {
     );
 
     // Now redirect
-    window.location.href = "/frontend/pages/leaderboard.html";
+    window.location.href = "/expense/leaderboard";
   });
 }
 
@@ -295,7 +296,7 @@ if(backToLoginForm){
   const createNewPassword = document.getElementById("back-to-login-btn");
   createNewPassword.addEventListener("click", async (e) => {
     e.preventDefault();
-    window.location.href = "/index.html"
+    window.location.href = "/login"
   })
 }
 
@@ -329,7 +330,7 @@ if(backToLoginAfterPassForm){
   const createNewPassword = document.getElementById("back-to-login-after-pass-btn");
   createNewPassword.addEventListener("click", async (e) => {
     e.preventDefault();
-    window.location.href = "/index.html"
+    window.location.href = "/login"
   })
 }
 

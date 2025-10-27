@@ -38,7 +38,24 @@ app.use("/expenses", expenseRoutes);
 app.use("/payment", paymentRoutes);
 app.use("/premium", premiumRoutes);
 
-
+app.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"))
+});
+app.get("/signup", (req, res) => {
+  res.sendFile(path.join(__dirname, "/frontend/pages/signup.html"))
+});
+app.get("/forget-password", (req, res) => {
+  res.sendFile(path.join(__dirname, "/frontend/pages/forgetPass.html"))
+});
+app.get("/reset-password", (req, res) => {
+  res.sendFile(path.join(__dirname, "/frontend/pages/resetPass.html"))
+});
+app.get("/expense/dashboard", (req, res) => {
+  res.sendFile(path.join(__dirname, "/frontend/pages/expense.html"))
+});
+app.get("/expense/leaderboard", (req, res) => {
+  res.sendFile(path.join(__dirname, "/frontend/pages/leaderboard.html"))
+});
 User.hasMany(Expenses, {foreignKey: "user_id", onDelete: "CASCADE"});
 Expenses.belongsTo(User, {foreignKey: "user_id"});
 
