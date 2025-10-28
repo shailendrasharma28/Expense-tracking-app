@@ -48,7 +48,7 @@ const userController = {
             const token = authMiddleware.generateToken(user.id);
             authMiddleware.setTokenCookie(res, token);
             const response = user.toJSON();
-            delete user.password;
+            delete response.password;
             res.status(200).json({
                 success: true,
                 message: `Hey ${user.name}! You logged in successfully.`,
@@ -59,6 +59,26 @@ const userController = {
             res.status(500).json({
                 success: false,
                 message: `Error login you account, try again later!`
+            })
+        }
+    },
+
+    getUserById: async (req, res) => {
+        const {id} = req.user
+        try {
+            const user = await User.findOne({where: {id: id}});
+            const response = user.toJSON();
+            delete response.password;
+            res.status(200).json({
+                success: true,
+                user: response
+            })
+        } catch (error) {
+            console.log(error);
+            
+            res.status(500).json({
+                success: false,
+                message: `Error finding user, try again later!`
             })
         }
     }

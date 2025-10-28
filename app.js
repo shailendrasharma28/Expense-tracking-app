@@ -38,6 +38,9 @@ app.use("/expenses", expenseRoutes);
 app.use("/payment", paymentRoutes);
 app.use("/premium", premiumRoutes);
 
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"))
+});
 app.get("/login", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"))
 });
@@ -56,6 +59,15 @@ app.get("/expense/dashboard", (req, res) => {
 app.get("/expense/leaderboard", (req, res) => {
   res.sendFile(path.join(__dirname, "/frontend/pages/leaderboard.html"))
 });
+app.get("/expense/reports", (req, res) => {
+  res.sendFile(path.join(__dirname, "/frontend/pages/reports.html"))
+});
+app.get("/payment/order/:orderId", (req, res) => {
+  setTimeout(() => {
+    res.sendFile(path.join(__dirname, "/frontend/pages/expense.html"))
+  },4000);
+});
+
 User.hasMany(Expenses, {foreignKey: "user_id", onDelete: "CASCADE"});
 Expenses.belongsTo(User, {foreignKey: "user_id"});
 

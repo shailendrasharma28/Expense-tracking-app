@@ -21,7 +21,7 @@ const expenseController = {
 
     get: async (req, res) => {
         const userId = req.user.id;
-        const {limit = 10, page = 1} = req.query;
+        const {limit , page = 1} = req.query;
         try {
             const {count, rows} = await Expenses.findAndCountAll({
                 where: {user_id: userId},

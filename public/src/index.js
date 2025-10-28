@@ -17,41 +17,17 @@ const backToLoginForm = document.getElementById("back-to-login-form");
 const newPassForm = document.getElementById("newPass-form");
 const backToLoginAfterPassForm = document.getElementById("back-to-login-after-pass-form");
 const pageLimit = document.getElementById("limit-select");
+const nextPage = document.getElementById("next-page");
+const prevPage = document.getElementById("prev-page");
 
+let currentPath = window.location.pathname;
 let expenses = {};
 let editingId = null;
+let limit = null;
+let currentPage = 1;
 
 // Initial load
-window.addEventListener("DOMContentLoaded", async () => {
-  try {
-    const token = localStorage.getItem("jwt");
-    if (!token) {
-      const allowPath = ["/login", "/signup", "/forget-password", "/reset-password"]
-      if ( !allowPath.includes(window.location.pathname)) {
-        window.location.href = "/login";
-        return;
-      }
-    }
-    if (expenseForm) {
-      const user = localStorage.getItem("user-details");
-
-      const userJson = JSON.parse(user);
-      if (userJson.is_premium === true) {
-        premiumDiv.classList.remove("hidden");
-      }
-      const res = await axios.get(`${baseUrl}/expenses?limit=5&page=1`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      expenses = res.data;
-      renderExpenses();
-    }
-  } catch (err) {
-    console.error("Error fetching expenses:", err);
-  }
-});
-
+window.addEventListener("DOMContentLoaded", reloadPage());
 
 if (signupForm) {
   signupForm.addEventListener("submit", async (e) => {
@@ -138,7 +114,8 @@ if(expenseForm){
             Authorization: `Bearer ${token}`,
           },
         });
-        expenses.rows.push(res.data);
+        expenses.rows.unshift(res.data);
+        location.reload();
       }
 
       renderExpenses();
@@ -152,7 +129,36 @@ if(expenseForm){
 if(pageLimit){
   pageLimit.addEventListener("change", (e) => {
     const selectedValue = e.target.value;
+    limit = selectedValue;
+    localStorage.setItem("limit", selectedValue)
+    location.reload();
   } )
+}
+
+if(nextPage){
+  nextPage.addEventListener("click", (e) => {
+    e.preventDefault();
+    if(currentPage < expenses.totalPages) {
+      currentPage = Number(currentPage) + 1;
+      localStorage.setItem("currentPage", currentPage)
+      location.reload()
+    } else if (currentPage >= expenses.totalPages) {
+      nextPage.disabled = true
+    }
+  })
+}
+
+if(prevPage){
+  prevPage.addEventListener("click", (e) => {
+    e.preventDefault();
+    if(currentPage > 1 && currentPage <= expenses.totalPages){
+      currentPage = Number(currentPage) - 1;
+      localStorage.setItem("currentPage", currentPage);
+      location.reload();
+    } else if (currentPage <= 1){
+      prevPage.disabled = true;
+    }
+  })
 }
 
 if (leaderboardBtn) {
@@ -179,21 +185,8 @@ if (leaderboardBtn) {
 if (reportsBtn) {
   reportsBtn.addEventListener("click", async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("jwt");
-    const leaderboardData = await axios.get(`${baseUrl}/premium/leaderboard`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    // Save data temporarily before redirecting
-    localStorage.setItem(
-      "leaderboardData",
-      JSON.stringify(leaderboardData.data.leaderboard)
-    );
-
     // Now redirect
-    window.location.href = "/frontend/pages/leaderboard.html";
+    window.location.href = "/expense/reports";
   });
 }
 
@@ -221,6 +214,7 @@ if (payBtn) {
     const paymentSessionId = createPayment.data.sessionId;
     let checkoutOptions = {
       paymentSessionId: paymentSessionId,
+      redirectTarget: "_blank"
     };
     await cashfree.checkout(checkoutOptions);
   })
@@ -228,19 +222,23 @@ if (payBtn) {
 
 function renderExpenses() {
   expensesDiv.innerHTML = "<h1 id='myexpense-heading'>My Expenses</h1>";
-
   const pagesUl = document.getElementById("pages-ul");
-  const totalPages = expenses.totalPages || 7;
-  console.log("Total Pages:", totalPages);
+  pagesUl.innerHTML = ""
+  const totalPages = expenses.totalPages;
 
-  for (let i = 1; i <= totalPages; i++) {
-    const paginationPageItem = document.createElement("li");
-    paginationPageItem.textContent = i; 
-    paginationPageItem.setAttribute("value", i); 
-    paginationPageItem.classList.add("page-item");
+  const paginationPageItem = document.createElement("li");
+  paginationPageItem.textContent = `Page: ${currentPage}`;
+  paginationPageItem.setAttribute("value", currentPage);
+  paginationPageItem.classList.add("page-item");
 
-    pagesUl.appendChild(paginationPageItem);
-  }
+  pagesUl.appendChild(paginationPageItem);
+
+  const totalPagesCount = document.createElement("li");
+  totalPagesCount.textContent = `Total pages: ${totalPages}`;
+  totalPagesCount.classList.add("page-count-total");
+
+  pagesUl.appendChild(totalPagesCount);
+ 
 
   expenses.rows.forEach((exp) => {
     const expenseItem = document.createElement("div");
@@ -265,6 +263,7 @@ window.deleteExpense = async function (id) {
     });
     expenses.rows = expenses.rows.filter((exp) => exp.id !== id);
     renderExpenses();
+    location.reload();
   } catch (err) {
     console.error("Error deleting expense:", err);
   }
@@ -275,12 +274,9 @@ if(sendMailForm){
     e.preventDefault();
 
     const email = document.getElementById("email").value;
-    console.log(email);
     
     const sendOTP = await axios.post(`${baseUrl}/password/send-mail`, {email});
     const res = sendOTP.data
-    console.log(res);
-    
     if(res.success === false){
       showToast(res.message, error);
       return
@@ -306,14 +302,11 @@ if(newPassForm){
 
     const params = new URLSearchParams(window.location.search);
     const token = params.get('token'); 
-    console.log(token);
     
     const new_password = document.getElementById("new_pass").value;
-    console.log(new_password);
     
     const createNewPassword = await axios.post(`${baseUrl}/password/forgotpassword`, {new_password, token});
-    const res = createNewPassword.data
-    console.log(res);
+    const res = createNewPassword.data;
     
     if(res.success === false){
       showToast(res.message, error);
@@ -332,6 +325,55 @@ if(backToLoginAfterPassForm){
     e.preventDefault();
     window.location.href = "/login"
   })
+}
+
+async function reloadPage() {
+  try {
+    const token = localStorage.getItem("jwt");
+    if (!token) {
+      const allowPath = ["/login", "/signup", "/forget-password", "/reset-password"]
+      if ( !allowPath.includes(window.location.pathname)) {
+        window.location.href = "/login";
+        return;
+      }
+    }
+    if (expenseForm) {
+      const token = localStorage.getItem("jwt");
+      const updates = await axios.get(`${baseUrl}/users/profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      localStorage.setItem("user-details", JSON.stringify(updates.data.user));
+      const user = localStorage.getItem("user-details")
+      const userJson = JSON.parse(user);
+      if (userJson.is_premium === true) {
+        premiumDiv.classList.remove("hidden");
+      }
+      pageLimit.value = localStorage.getItem("limit") || 5
+      limit = localStorage.getItem("limit") || pageLimit.value || 10;
+      currentPage = localStorage.getItem("currentPage") || 1;
+      const res = await axios.get(`${baseUrl}/expenses?limit=${limit}&page=${currentPage}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      expenses = res.data;
+      renderExpenses();
+    }
+  } catch (err) {
+    console.error("Error fetching expenses:", err);
+  }
+}
+
+if(currentPath.startsWith("http://localhost:4000/payment/order/")) {
+  setTimeout(() => {
+    window.location.href = "/expense";
+    showToast("Payment Successfull, You are a premium user", "success");
+    setImmediate(() => {
+      location.reload();
+    }, 3000)
+  }, 3000)
 }
 
 function showToast(message, type = "success") {

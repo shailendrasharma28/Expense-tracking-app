@@ -46,7 +46,6 @@ const paymentController = {
         const user = await User.findOne({
             include: {model: Payment, attributes: ["id", "user_id"], where: {order_id: order_id}}
         });
-        console.log(user);
         
         user.update({is_premium: true})
       }
