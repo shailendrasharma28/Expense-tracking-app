@@ -1,0 +1,70 @@
+</html>
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Expense Report</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="../css/report.css" />
+</head>
+
+<body>
+    <main class="report-container">
+        <header class="report-header">
+            <h1>Expense Report</h1>
+            <div class="controls">
+                <label for="year-select">Year:</label>
+                <select id="year-select"></select>
+
+
+                <button id="refresh-btn">Refresh</button>
+                <button id="download-pdf-btn">Download PDF</button>
+            </div>
+        </header>
+
+
+        <section id="report-summary" class="report-summary">
+            <div class="summary-item">
+                <h3 id="total-year"></h3>
+                <small id="total-count"></small>
+            </div>
+        </section>
+
+
+        <section id="report-table-section" class="report-table-section">
+            <table id="report-table">
+                <thead>
+                    <tr>
+                        <th>Month</th>
+                        <th>Amount (₹)</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot>
+                    <tr>
+                        <th>Year Total</th>
+                        <th id="year-total">₹0</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+
+
+        <p class="note">Tip: Use the Download PDF button to save this page as PDF. If pop-up blocked, use your browser's
+            Print → Save as PDF.</p>
+    </main>
+
+
+    <!-- Axios (project likely already includes axios; this just ensures availability) -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Optional: html2pdf for better PDF capture (fallbacks to print if not loaded) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+
+
+    <script src="/scripts/reports.js"></script>
+</body>
+
+</html>
